@@ -147,4 +147,132 @@ paranoid()
     }
     // display initial score
     setcolor(10);
+    outtextxy(midx - 295, midy + 165, "Your Score:");
+
+    // select font and alignment for displaying text
+    settextjustify(CENTER_TEXT, CENTER_TEXT);
+    settextstyle(5, HORIZ_DIR, 5);
+
+    while (1)
+    {
+        flag = 0;
+
+        // save the current x and y coordinates of the ball
+        oldx = ballx;
+        oldy = bally;
+
+        ballx = ballx + dx;
+        bally = bally + dy;
+
+        if (bally > 40)
+        {
+            limit = 50;
+            currentlayer = 4;
+        }
+        else
+        {
+            if (bally > 30)
+            {
+                limit = 40;
+                currentlayer = 3;
+            }
+            else
+            {
+                if (bally > 20)
+                {
+                    limit = 30;
+                    currentlayer = 2;
+                }
+                else
+                {
+                    if (bally > 10)
+                    {
+                        limit = 20;
+                        currentlayer = 1;
+                    }
+                    else
+                    {
+                        limit = 10;
+                        currentlayer = 0;
+                    }
+                }
+            }
+        }
+
+        // if the ball hits the left boundary, deflect it  to the right
+        if (ballx < 1)
+        {
+            music(5);
+            ballx = 1;
+            dx = -dx;
+        }
+
+        // if the ball hits the right boundary, deflect it to the left
+
+        if (ballx > (maxx - 24 - 1))
+        {
+            music(5);
+            ballx = maxx - 24 - 1;
+            dx = -dx;
+        }
+        // if the ball hits the top boundary, deflect it down
+        if (bally < 1)
+        {
+            music(5);
+            bally = 1;
+            dy = -dy;
+        }
+
+        // if the ball is in the area occupied by the bricks
+
+        if (bally < limit)
+        {
+            // if there is no brick present exactly at the top of the ball
+            if (bri[currentlayer][(ballx + 10) / 32] == 1)
+            {
+                // determine if the boundary of the ball touches a brick
+                for (i = 1; i <= 6; i++)
+                {
+                    // check whether there is a brick to the right of the ball
+                    if (bri[currentlayer][(ballx + i + 10) / 32] == 0)
+                    {
+                        // if there is a brick
+                        ballx = ballx + i;
+                        flag = 1;
+                        break;
+                    }
+                    // check whether there is a brick to the left of the ball
+
+                    if (bri[currentlayer][(ballx - i + 10) / 32] == 0)
+                    {
+                        ballx = ballx - i;
+                        flag = 1;
+                        break;
+                    }
+                }
+                // if the ball does not touch a brick at the top, left or right
+
+                if (!flag)
+                {
+                    // check if the ball has moved above the current layer
+                    if (bally < layer[currentlayer - 1])
+                    {
+                        //  if so, change current layer appropriately
+                        currentlayer--;
+                        limit = layer[currentlayer];
+                    }
+                }
+                // put hte image of the ball at the old coordinates
+                putimage(oldx, oldy, p1, OR_PUT);
+                // erase the image at the old coordinates
+                putimage(oldx, oldy, p1, XOR_PUT);
+                // put hte image of the ball at the new coordinates
+                putimage(ballx, bally, p1, XOR_PUT);
+                // introduce delay
+                delay(speed);
+                // carry on with moving the ball
+                continue;
+            }
+        }
+    }
 }

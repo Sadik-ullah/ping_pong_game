@@ -274,5 +274,63 @@ paranoid()
                 continue;
             }
         }
+        // control comes to this point only if the ball is touching a brick
+        music(4);
+        // erase the brick hit by the ball
+        erasebrick((ballx + 10) / 32, currentlayer);
+        // if the brick hit happens to be on the extreme right
+        if ((ballx + 10) / 32 == 19)
+
+            line(maxx, 0, maxx, 50); // redraw right boundary
+
+        // if the brick hit happens to be on the extreme left
+        if ((ballx + 10) / 32 == 0)
+            line(0, 0, 0, 50); // redraw left boundary
+
+        // if the brick hit happens to be in the topmost layer
+
+        if (currentlayer == 0)
+            line(0, 0, maxx, 0); // redraw top boundary
+
+        // set appropriate array element to 1 to indicate absence of brick
+
+        bri[currentlayer][(ballx + 10) / 32] = 1;
+        bally = bally + 1; // update the y coordinate
+        score += 5;        // increment score
+        gotoxy(16, 25);
+        printf("%4d", score); // print latest score
+
+        // if the frist brick ist hit during a throw
+
+        if (welldonw == NO)
+            welldonw = YES;
+        else
+        {
+            // for the consecutive bricks hit during the same throw
+            setcolor(10);
+            outtextxy(midx, midy, "MAMA!");
+            music(4);
+        }
+    }
+
+    // clear part of the screen used for dispaying well done message
+
+    if (bally > 50 && welldone == YES)
+    {
+        setviewprot(midx - 32 * 2.5, midy - 32 / 2, midx + 32 * 2.5, midy + 32 / 2, 1);
+        clearviewport();
+        setviewprot(0, 0, maxx, maxy, 1);
+        welldone = NO;
+    }
+
+    // if the ball has reached the bottom
+    if (bally > 330 - 12)
+    {
+        welldone = NO;
+        // if the paddle has missed the ball
+        if (ballx < paddlex - 20 || ballx > paddlex + 50)
+        {
+            // continue the descest of the ball
+        }
     }
 }

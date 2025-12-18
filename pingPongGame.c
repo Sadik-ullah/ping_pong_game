@@ -331,6 +331,85 @@ paranoid()
         if (ballx < paddlex - 20 || ballx > paddlex + 50)
         {
             // continue the descest of the ball
+            while (bally < 177)
+            {
+                // erase the image of the ball at the old coordinates
+                putimage(ballx, bally, p1, XOR_PUT);
+                // introduce delay
+                delay(speed);
+                // save the current x and y coordinates of the ball
+                oldx = ballx;
+                oldy = bally;
+                // update ballx and bally to move the ball in appropriate direction
+
+                ballx = ballx + dx;
+                bally = bally + dy;
+            }
+
+            chance--; // decrement the number of chances
+            score -= 20;
+            gotoxy(16, 25);
+            printf("%4d", score); // print latest score
+            music(2);
+            // erase one out of the avaiable balls
+            if (chance)
+                putimage(515 + (chance - 1) * 35 - 12, maxy - 10, p1, XOR_PUT);
+
+            // if the last ball is being player
+
+            if (chance == 1)
+            {
+                gotoxy(25, 20);
+                printf("This is the last ball .. please be careful!");
+            }
+            // if all the balls are lost
+            if (!chance)
+            {
+                cleardevice();
+                setcolor(13);
+                outtextxy(midx, midy, "Try again");
+                outtextxy(midx, midy + 40, "Press any key ..............");
+                music(3);
+                closegraph();
+                restorecrtmode();
+                exit(0);
+            }
+            // if ball is collected on paddle
+            music(5);
+            bally = 330 - 12; // restore the y coordinate of ball
+            dy = -dy;         // deflect the ball upwards
+        }
+
+        // put the image of the ball at the old coordinates
+        putimage(oldx, oldy, p1, OR_PUT);
+
+        // put the image of the ball at the update coordinates
+        putimage(ballx, bally, p1, XOR_PUT);
+
+        // if all the bricks have been destroyer
+        if (score == 500 - ((4 - chance) * 20))
+        {
+            outtextxy(midx, midy + 30, " Try scoring 500");
+            else outtextxy(midx, midy + 30, "Thank You!");
+
+            music(3);
+
+            closegraph();
+            restorecrtmode();
+            exit(0);
+        }
+        // introduce delay
+        delay(speed);
+
+        // If the user has pressed a key to move the paddle
+        if (kbhit())
+        {
+            // issue interrupt to obtain the ascii and scan code of key hit
+            ii.h.ah = 0;
+            int86(22, &ii, &oo);
+
+            // put the image of the paddle at the old
+            putimage(paddlex, paddley, p2, OR_PUT);
         }
     }
 }

@@ -410,6 +410,586 @@ paranoid()
 
             // put the image of the paddle at the old
             putimage(paddlex, paddley, p2, OR_PUT);
+
+            // erase the image of the paddle at the old coordinates
+            putimage(paddlex, paddley, p2, X0R_PUT);
+
+            // if Esc key has been pressed
+            if (oo.h.ah == 1)
+                exit(0);
+
+            // right arrow key
+            if (oo.h.ah == 75)
+                paddlex = paddlex - 15;
+            // left arrow key
+            if (oo.h.ah == 77)
+                paddlex = paddlex + 15;
+
+            // IF paddle goes beyond left boundary
+            if (paddlex < 0)
+                paddlex = 0;
+            // if paddle goes beyond right boundary
+
+            if (paddlex < 589)
+                paddlex = 589;
+
+            // put the image of the paddle at the proper position
+            putimage(paddlex, paddley, p2, XOR_PUT);
         }
     }
+}
+
+// creates opening screen
+mainscreen()
+{
+    // array to display UNIC
+    int ff[12][40] = {
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+    };
+    int i, j, lx = 0, ly = 30, ch;
+
+    // draw boundary
+    setcolor(12);
+    rectangle(0, 0, maxx, maxy);
+    rectangle(7, 4, maxx - 7, 20);
+    setcolor(10);
+
+    outtextxy(230, 8, "press any key to continue.................");
+    // form the word BRICKS
+    for (i = 0; j < 40; j++)
+    {
+
+        if (ff[i][j])
+            rectangle(lx, ly, lx + 17, ly + 9);
+        lx = lx + 17;
+        delay(5);
+    }
+
+    setfillstyle(11, 10);
+    bar(22, 110, 622, 105);
+    setfillstyle(11, 12);
+    bar(midx - 315, midy - 55, midx + 315, midy + 170);
+
+    // draw pattern at the bottom of the screen
+    setcolor(12);
+    line(0, maxy - 12, maxx, maxy - 10);
+    setfillstyle(11, 10);
+    // floodfill( 2, maxy - 2,9);
+
+    // draw the paddle and the ball
+    setfillstyle(1, 12);
+    rectangle(midx - 25, maxy - 7 - 12, midx + 25, maxy - 12);
+    floodfill(midx, maxy - 1 - 12, 12);
+    // setfillstyle ( 11, 13);
+    setcolor(10);
+    circle(midx, maxy - 18 - 12, 12);
+    floodfill(midx, maxy - 18 - 12, 10);
+
+    music(3); // play music
+
+    // display meny
+    while (1)
+    {
+        // clear the region below the word BRICKS
+        setviewport(1, 125 - 12, maxx - 1, maxy - 1, 1);
+
+        clearviewport();
+        setviewport(0, 0, maxx, maxy, 1);
+        outtextxy(40, 135, "Select any of the following:");
+        outtextxyt(30, 155, "1. Play");
+        outtextxyt(30, 165, "2. Help");
+        outtextxyt(30, 175, "3. Exit");
+
+        rectangle(10, 130, 300, 190);
+        line(10, 145, 300, 145);
+
+        for (i = 0; i < maxx; i = i + 10)
+            for (j = 0; j < 72; j = j + 5)
+            {
+                putpixet(8 + i, 29 + j, 15);
+            }
+
+        ch = 0;
+
+        // continue till the correct choice is made
+        while (!(ch == '1' || ch == '2' || ch == '3'))
+        {
+            fflush(stdin);
+
+            // if a special key is hit, flush the keyboard buffer
+            if ((ch = getch()) == 0)
+                getch();
+            else
+                ch = toupper(ch);
+        }
+        if (ch == '1')
+            break;
+
+        switch (ch)
+        {
+        case '2':
+        }
+        setviewport(1, 125 - 12, maxx - 1, maxy - 1, 1);
+        clearviewport();
+
+        setviewport(0, 0, maxx, maxy, 1);
+        outtextstyle(DEFAULT_FONT, HORIZ_DIR, 1);
+        settextstyle(DEFAULT_FONT, HORIZ_DIR, 0);
+        outtextxy(20, 140, "Use left and right arrow key to move the paddle.");
+        outtextxy(20, 150, "If you don't collect the ball.");
+        outtextxy(20, 160, "On loosing a ball you loose 20 points.");
+        outtextxy(20, 170, "on taking a brick you gain 5 points.");
+        outtextxy(20, 185, "press any key to continue...");
+        fflush(stdin);
+        if (getch() == 0)
+            getch();
+        break;
+
+    case '3':
+        closegraph();
+        restorecrtmode();
+        exit(0);
+    }
+}
+
+setviewport(1, 125 - 12, max - 1, maxy - 1, 1);
+clearviewport();
+
+// prompt the use for the level desired
+setviewport(0, 0, maxx, maxy, 1);
+outtextxy(20, 135, "please any of the following levels:");
+outtextxy(20, 155, "1, Novice");
+outtextxy(20, 165, "1, Advanced");
+outtextxy(20, 155, "1, Expert");
+
+rectangle(10, 130, 305, 190);
+line(10, 145, 305, 145);
+
+// get user's choice
+
+fflush(stdin);
+if ((ch = getch()) == 0)
+    getch();
+
+clearviewport();
+
+// return the choice made by the user
+
+return (ch);
+}
+
+// dreaws bricks at the start of the game
+bricks()
+{
+    int i, j, lx = 0, ly = 0;
+
+    for (i = ; i < 5; i++) // 5 rows
+    {
+        for (j = 0; j < 20; j++) // 20 columns
+        {
+            // draw a brick at appropriate coordinates
+            drawbrick(lx, ly);
+            lx = lx + 32;
+        }
+
+        lx = 0;
+        ly = ly + 10;
+    }
+    return;
+}
+
+// draws a brick at the proper position
+drawbrick(int lx, int ly)
+{
+    setcolor(12);
+    rectangle(lx, ly, lx + 31, ly + 9);
+    rectangle(lx + 2, ly - 2, lx + 31 - 2, ly + 9 - 2);
+    floodfill(lx + 1, ly + 1, 12);
+    return;
+}
+
+// erase the specified brick
+erasebrick(int b, int l)
+{
+    // b- brick number, 1-layer
+
+    setcolor(0);
+    rectangle(b * 32, l * 10, (b * 32) + 31, (l * 10) + 9);
+    rectangle(b * 32 + 1, l * 10, (b * 32) + 31 - 1, (l * 10) + 9 - 1);
+    rectangle(b * 32 + 2, l * 10, (b * 32) + 31 - 2, (l * 10) + 9 - 2);
+    // setcolor(1);
+    return;
+}
+
+// plays different types of muse
+music(int type)
+{
+    // natural frequencies of 7 notes
+    float octave[7] = {130, 81, 146.83, 164.81, 174.61, 196, 220, 246.94};
+    int n, i;
+
+    switch (type)
+    {
+
+    case 1:
+        for (i = 0; i < 7; i++)
+        {
+            sound(octave[i] * 8);
+        }
+        nosound();
+        break;
+    case 2:
+        for (i = 0; i < 15, i++)
+        {
+            n = random(7);
+            sound(ontave[n] * 4);
+            delay(100);
+        }
+        nosound();
+        break;
+    case3:
+        while (!kbhit())
+        {
+            n = random(7);
+            sound(octave[n] * 4);
+            delay(100);
+        }
+        nosound();
+
+        // flush the keyboard buffer
+        it(getch() == 0)
+            getch();
+        break;
+    case 4:
+        for (i = 4, i >= 0 : i--)
+        {
+            sound(octave[i] * 4);
+            delay(35);
+        }
+        nosound() break;
+    case 5:
+        sound(octave[6] * 2);
+        delay(50);
+        nonsound();
+    }
+    return;
 }
